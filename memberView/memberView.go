@@ -5,7 +5,27 @@ import (
 	"member-management/memberControl"
 )
 
-func ShowOpening () int {
+type MemberView struct {}
+
+func NewMemberView() *MemberView {
+	return &MemberView{}
+}
+
+type MemberShowInterface interface {
+	ShowOpening () int
+	ShowMembers(mc *memberControl.MemberControl)
+}
+
+type MemberAddInterface interface {
+	AddMember(mc *memberControl.MemberControl)
+}
+
+
+type MemberRemoveInterface interface {
+	RemoveMember(mc *memberControl.MemberControl)
+}
+
+func (mv *MemberView)ShowOpening () int {
 	fmt.Println()
 	fmt.Println()
 	fmt.Println()
@@ -23,7 +43,7 @@ func ShowOpening () int {
 	return key
 }
 
-func AddMember(members *memberControl.Members) {
+func (mv *MemberView)AddMember(mc *memberControl.MemberControl) {
 	fmt.Println()
 	fmt.Print("name: ")
 	var name string
@@ -44,17 +64,17 @@ func AddMember(members *memberControl.Members) {
 	var gender string
 	fmt.Scanln(&gender)
 
-	members.AddMember(name, phone, age, gender)
+	mc.AddMember(name, phone, age, gender)
 	fmt.Println("Success to add a member")
 	fmt.Println()
 }
 
-func ShowMembers(members *memberControl.Members) {
+func (mv *MemberView)ShowMembers(mc *memberControl.MemberControl) {
 	fmt.Println()
 	fmt.Println()
 	fmt.Println()
 	fmt.Println("\t id \t name \t phone \t age \t gender ")
-	for _, item := range *members {
+	for _, item := range mc.Members {
 		println()
 		fmt.Printf("\t %v \t %v \t %v \t %v \t %v ", item.Id, item.Name, item.Phone, item.Age, item.Gender)
 	}
@@ -66,14 +86,14 @@ func ShowMembers(members *memberControl.Members) {
 	}
 }
 
-func RemoveMember(members *memberControl.Members) {
+func (mv *MemberView)RemoveMember(mc *memberControl.MemberControl) {
 	fmt.Println()
 	fmt.Print("id: ")
 	var id int
 	fmt.Scanln(&id)
 
 
-	members.RemoveMember(id)
+	mc.RemoveMember(id)
 	fmt.Println("Success to remove the member")
 	fmt.Println()
 }

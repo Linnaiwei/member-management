@@ -5,19 +5,20 @@ import (
 	"member-management/memberView"
 )
 
-func main() {
-	members := memberControl.NewMembers()
 
+func main() {
+	mc := memberControl.NewMemberControl()
+	mv := memberView.NewMemberView()
 	loop := true
 	for loop {
-		key := memberView.ShowOpening()
+		key := mv.ShowOpening()
 		switch key {
 		case 1:
-			memberView.ShowMembers(members)
+			mv.ShowMembers(mc)
 		case 2:
-			memberView.AddMember(members)
+			mv.AddMember(mc)
 		case 3:
-			memberView.RemoveMember(members)
+			mv.RemoveMember(mc)
 		case 4:
 			loop = false
 		}

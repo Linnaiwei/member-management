@@ -2,25 +2,28 @@ package memberControl
 
 import "member-management/member"
 
-type Members []member.Member
-
-func (members *Members) AddMember (name string, phone string, age int, gender string) {
-	id := 0
-	if len(*members) > 0 {
-		id = (*members)[len(*members)-1].Id + 1
-	}
-	*members = append(*members, *member.NewMember(id, name, phone, age, gender))
+type MemberControl struct {
+	Members []member.Member
 }
 
-func (members *Members) RemoveMember (id int) {
-	for index, item := range *members {
+
+func (this *MemberControl) AddMember (name string, phone string, age int, gender string) {
+	id := 0
+	if len(this.Members) > 0 {
+		id = (this.Members)[len(this.Members)-1].Id + 1
+	}
+	this.Members = append(this.Members, *(member.NewMember(id, name, phone, age, gender)))
+}
+
+func (this *MemberControl) RemoveMember (id int) {
+	for index, item := range this.Members {
 		if item.Id == id {
-			*members = append((*members)[:index], (*members)[index+1:]...)
+			this.Members = append((this.Members)[:index], (this.Members)[index+1:]...)
 			break
 		}
 	}
 }
 
-func NewMembers () *Members {
-	return new(Members)
+func NewMemberControl () *MemberControl {
+	return new(MemberControl)
 }
